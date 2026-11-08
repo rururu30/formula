@@ -181,6 +181,77 @@
       </div><footer class="detail-footer"><span>追加　${dateLabel(formula.createdAt)}</span><span>更新　${dateLabel(formula.updatedAt)}</span></footer></section>`, "list");
   }
 
+  const latexInsertGroups = [
+    { label: "数と式・関数", items: [
+      ["log", "\\log{}"], ["自然対数 ln", "\\ln{}"], ["指数 e^x", "e^{}"], ["絶対値", "\\left| \\right|"],
+      ["不等号 ≤", "\\leq"], ["不等号 ≥", "\\geq"], ["≠", "\\neq"], ["近似 ≈", "\\approx"], ["比例 ∝", "\\propto"],
+      ["場合分け", "\\begin{cases} \\end{cases}"], ["二項定理", "\\binom{n}{r}"]
+    ]},
+    { label: "三角比・三角関数", items: [
+      ["sin", "\\sin{}"], ["cos", "\\cos{}"], ["tan", "\\tan{}"], ["逆三角関数 arcsin", "\\arcsin{}"],
+      ["角度 °", "^\\circ"], ["ラジアン π", "\\pi"], ["三角関数の恒等式", "\\sin^2{} + \\cos^2{} = 1"]
+    ]},
+    { label: "集合・論理", items: [
+      ["属する ∈", "\\in"], ["逆に含まれる ∋", "\\ni"], ["属さない ∉", "\\notin"], ["含む ⊃", "\\supset"], ["部分集合 ⊂", "\\subset"],
+      ["部分集合 ⊆", "\\subseteq"], ["上位集合 ⊇", "\\supseteq"], ["和集合 ∪", "\\cup"], ["共通部分 ∩", "\\cap"],
+      ["空集合 ∅", "\\emptyset"], ["全て ∀", "\\forall"], ["存在 ∃", "\\exists"], ["かつ ∧", "\\land"], ["または ∨", "\\lor"]
+    ]},
+    { label: "図形・ベクトル", items: [
+      ["平行 ∥", "\\parallel"], ["垂直 ⊥", "\\perp"], ["角 ∠", "\\angle"], ["三角形 △", "\\triangle"],
+      ["ベクトル", "\\vec{}"], ["ベクトル AB", "\\overrightarrow{AB}"], ["内積 ·", "\\cdot"], ["外積 ×", "\\times"],
+      ["長さ・ノルム", "\\left\\| \right\\|"], ["円の方程式", "(x-a)^2 + (y-b)^2 = r^2"], ["距離", "\\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}"]
+    ]},
+    { label: "ギリシャ文字", items: [
+      ["α alpha", "\\alpha"], ["β beta", "\\beta"], ["γ gamma", "\\gamma"], ["θ theta", "\\theta"],
+      ["Δ delta", "\\Delta"], ["ε epsilon", "\\epsilon"], ["λ lambda", "\\lambda"], ["μ mu", "\\mu"],
+      ["σ sigma", "\\sigma"], ["φ phi", "\\phi"], ["ω omega", "\\omega"]
+    ]},
+    { label: "数列・総和", items: [
+      ["総和 Σ", "\\sum_{k=1}^{n}{}"], ["総乗 Π", "\\prod_{k=1}^{n}{}"], ["数列 a_n", "a_{}"],
+      ["無限数列", "\\{a_n\\}_{n=1}^{\\infty}"], ["階乗 n!", "n!"], ["組合せ nCr", "\\binom{n}{r}"],
+      ["順列 nPr", "{}_n\\mathrm{P}_r"]
+    ]},
+    { label: "微分・積分・極限", items: [
+      ["微分 d/dx", "\\frac{d}{dx}{}"], ["導関数 dy/dx", "\\frac{dy}{dx}"], ["2階微分", "\\frac{d^2 y}{dx^2}"],
+      ["偏微分", "\\frac{\\partial}{\\partial x}{}"], ["不定積分 ∫", "\\int {} \\, dx"], ["定積分", "\\int_{a}^{b}{} \\, dx"],
+      ["極限 x→a", "\\lim_{x \\to a}{}"], ["極限 x→∞", "\\lim_{x \\to \\infty}{}"], ["無限大 ∞", "\\infty"]
+    ]},
+    { label: "確率・統計", items: [
+      ["確率 P(A)", "P(A)"], ["条件付き確率", "P(A\\mid B)"], ["期待値 E(X)", "E(X)"], ["分散 V(X)", "V(X)"],
+      ["標準偏差 σ", "\\sigma"], ["平均 x̄", "\\bar{x}"], ["標準化", "\\frac{X-\\mu}{\\sigma}"], ["正規分布", "N(\\mu,\\sigma^2)"],
+      ["相関係数 r", "r_{xy}"]
+    ]},
+    { label: "複素数・行列", items: [
+      ["虚数単位 i", "i"], ["複素数 z=a+bi", "z=a+bi"], ["複素共役", "\\overline{z}"], ["絶対値 |z|", "|z|"],
+      ["実部 Re", "\\operatorname{Re}(z)"], ["虚部 Im", "\\operatorname{Im}(z)"], ["行列", "\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}"]
+    ]}
+  ];
+
+  const commonLatexInserts = [
+    ["数式枠", "\\[  \\]"], ["分数", "\\frac{}{}"], ["平方根", "\\sqrt{}"], ["累乗", "^{}"], ["添字", "_{}"],
+    ["±", "\\pm"], ["sin", "\\sin{}"], ["cos", "\\cos{}"], ["tan", "\\tan{}"], ["log", "\\log{}"]
+  ];
+
+  function latexInsertControls() {
+    const common = commonLatexInserts.map(([label, snippet]) => `<button class="tag-filter" type="button" data-action="insert-latex" data-snippet="${escapeHtml(snippet)}">${escapeHtml(label)}</button>`).join("");
+    const groups = latexInsertGroups.map((group) => `<optgroup label="${escapeHtml(group.label)}">${group.items.map(([label, snippet]) => `<option value="${escapeHtml(snippet)}">${escapeHtml(label)}</option>`).join("")}</optgroup>`).join("");
+    return `<div class="latex-insert-tools"><div class="latex-common"><span class="filter-caption">よく使う記号</span><div class="latex-common-buttons">${common}</div></div><label class="latex-select-label">その他の記号<select data-action="insert-latex-select"><option value="">種類から選ぶ…</option>${groups}</select></label></div>`;
+  }
+
+  function insertLatexSnippet(snippet) {
+    const input = document.getElementById("formula-content");
+    if (!input || !snippet) return;
+    const start = input.selectionStart;
+    const end = input.selectionEnd;
+    input.setRangeText(snippet, start, end, "end");
+    const firstEmpty = snippet.indexOf("{}");
+    const frameSpace = snippet.indexOf("  ");
+    const caret = start + (firstEmpty >= 0 ? firstEmpty + 1 : frameSpace >= 0 ? frameSpace + 1 : snippet.length);
+    input.focus();
+    input.setSelectionRange(caret, caret);
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
   function editorView(id) {
     const formula = id ? byId(id) : null;
     if (id && !formula) return listView();
@@ -192,16 +263,10 @@
       <form class="editor-card" id="formula-form"><div class="form-grid">
         <div class="field"><label for="formula-name">公式名 <span class="required">必須</span></label><input id="formula-name" name="name" required maxlength="120" placeholder="例：三平方の定理" value="${escapeHtml(draft?.name ?? formula?.name ?? "")}" /></div>
         <div class="field"><label for="formula-content">公式の内容 <span class="required">必須</span></label><textarea class="content-input" id="formula-content" name="content" required maxlength="5000" placeholder="例：\\[x^2 + y^2 = r^2\\]">${escapeHtml(draft?.content ?? formula?.content ?? "")}</textarea>
-          <details class="latex-help"><summary>LaTeXの入力方法と例を見る</summary><div class="latex-help-body">
-            <p>公式の内容欄は数式用です。LaTeXを <code>\\( ... \\)</code>、<code>\\[ ... \\]</code>、または <code>$$ ... $$</code> で囲んでください。説明などの通常テキストは「説明」欄に入力します。プレビューと保存後の公式表示にはLaTeX部分だけが表示されます。</p>
-            <div class="latex-example"><span>文の中に入れる</span><code>\\( x^2 + y^2 = r^2 \\)</code></div>
-            <div class="latex-example"><span>中央に大きく表示する</span><code>\\[ \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a} \\]</code></div>
-            <div class="latex-tips"><span><code>^</code> は累乗</span><span><code>_</code> は添字</span><span><code>\\frac{a}{b}</code> は分数</span><span><code>\\sqrt{x}</code> は平方根</span><span><code>\\pi</code> は π</span></div>
-            <div class="latex-insert"><span class="filter-caption">入力欄へ挿入</span><button class="tag-filter" type="button" data-action="insert-latex" data-snippet="\\[  \\]">数式の枠</button><button class="tag-filter" type="button" data-action="insert-latex" data-snippet="\\frac{}{}">分数</button><button class="tag-filter" type="button" data-action="insert-latex" data-snippet="\\sqrt{}">平方根</button><button class="tag-filter" type="button" data-action="insert-latex" data-snippet="^{}">累乗</button><button class="tag-filter" type="button" data-action="insert-latex" data-snippet="_{}">添字</button><button class="tag-filter" type="button" data-action="insert-latex" data-snippet="\\pi">π</button></div>
-          </div></details>
+          <div class="latex-insert">${latexInsertControls()}</div>
           <div class="preview-label" style="margin-top:13px">数式プレビュー</div><div class="preview-box math-preview" id="math-preview">LaTeX数式を入力するとここに表示されます</div></div>
         <div class="field"><label for="formula-explanation">説明 <span class="required">必須</span></label><textarea id="formula-explanation" name="explanation" required maxlength="5000" placeholder="この公式が何を表し、どんなときに使えるかを書きます。">${escapeHtml(draft?.explanation ?? formula?.explanation ?? "")}</textarea></div>
-        <div class="field"><label for="tag-draft">タグ <span class="required" style="color:#98a0af">任意・複数可</span></label><div class="tag-input-row"><input id="tag-draft" name="tagDraft" maxlength="40" placeholder="例：図形、三角比" value="${escapeHtml(draft?.tagDraft || "")}" /><button class="btn btn-secondary btn-small" data-action="add-tag" type="button">追加</button></div><div class="selected-tags" id="selected-tags">${selectedTagsHtml()}</div>${suggestions.length ? `<div class="tag-suggestions"><span class="filter-caption">よく使うタグ</span>${suggestions.slice(0, 6).map((tag) => `<button class="tag-filter" data-action="suggest-tag" data-tag="${escapeHtml(tag)}" type="button">＋ ${escapeHtml(tag)}</button>`).join("")}</div>` : ""}<p class="field-hint">Enterまたは「追加」で登録できます。タグは一覧と単語帳の絞り込みに使います。</p></div>
+        <div class="field"><label for="tag-draft">タグ <span class="required" style="color:#98a0af">任意・複数可</span></label><div class="tag-input-row"><textarea id="tag-draft" name="tagDraft" rows="1" maxlength="80" placeholder="例：図形、三角比">${escapeHtml(draft?.tagDraft || "")}</textarea><button class="btn btn-secondary btn-small" data-action="add-tag" type="button">追加</button></div><div class="selected-tags" id="selected-tags">${selectedTagsHtml()}</div>${suggestions.length ? `<div class="tag-suggestions"><span class="filter-caption">よく使うタグ</span>${suggestions.slice(0, 6).map((tag) => `<button class="tag-filter" data-action="suggest-tag" data-tag="${escapeHtml(tag)}" type="button">＋ ${escapeHtml(tag)}</button>`).join("")}</div>` : ""}<p class="field-hint">Enterを2回、または「追加」ボタンで登録できます。タグは一覧と単語帳の絞り込みに使います。</p></div>
       </div><div class="form-footer"><button class="btn btn-quiet" data-action="cancel-editor" type="button">キャンセル</button><div class="form-footer-right"><button class="btn btn-secondary" data-action="preview-card" type="button">単語帳を確認</button><button class="btn btn-primary" type="submit">${formula ? "変更を保存" : "公式を保存"}<span>→</span></button></div></div></form>`, "list");
   }
 
@@ -572,20 +637,7 @@
       const input = document.getElementById("tag-draft");
       if (input) addEditorTag(input.value);
     } else if (action === "suggest-tag") addEditorTag(tag);
-    else if (action === "insert-latex") {
-      const input = document.getElementById("formula-content");
-      if (!input) return;
-      const snippet = target.dataset.snippet || "";
-      const start = input.selectionStart;
-      const end = input.selectionEnd;
-      input.setRangeText(snippet, start, end, "end");
-      const firstEmpty = snippet.indexOf("{}");
-      const frameSpace = snippet.indexOf("  ");
-      const caret = start + (firstEmpty >= 0 ? firstEmpty + 1 : frameSpace >= 0 ? frameSpace + 1 : snippet.length);
-      input.focus();
-      input.setSelectionRange(caret, caret);
-      input.dispatchEvent(new Event("input", { bubbles: true }));
-    }
+    else if (action === "insert-latex") insertLatexSnippet(target.dataset.snippet || "");
     else if (action === "remove-editor-tag") {
       state.editorTags = state.editorTags.filter((value) => value !== tag);
       const container = document.getElementById("selected-tags");
@@ -595,6 +647,13 @@
       clearEditorDraft();
       navigate(state.editingId ? `detail/${encodeURIComponent(state.editingId)}` : "list");
     } else if (action === "preview-card") toast("単語帳プレビューは保存後に確認できます");
+  });
+
+  app.addEventListener("change", (event) => {
+    if (event.target.matches('[data-action="insert-latex-select"]')) {
+      insertLatexSnippet(event.target.value);
+      event.target.value = "";
+    }
   });
 
   app.addEventListener("submit", (event) => {
@@ -620,7 +679,10 @@
 
   app.addEventListener("keydown", (event) => {
     if (event.target.id === "tag-draft" && event.key === "Enter") {
-      event.preventDefault(); addEditorTag(event.target.value);
+      if (event.target.value.includes("\n")) {
+        event.preventDefault();
+        addEditorTag(event.target.value);
+      }
     }
     if (event.target.matches(".formula-row") && (event.key === "Enter" || event.key === " ")) {
       event.preventDefault(); navigate(`detail/${encodeURIComponent(event.target.dataset.id)}`);
