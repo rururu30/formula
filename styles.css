@@ -152,22 +152,19 @@ h3 { font-size: 15px; margin-bottom: 8px; }
 .field textarea { resize: vertical; min-height: 110px; line-height: 1.8; }
 .field textarea.content-input { min-height: 98px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
 .field-hint { color: #929bad; font-size: 11px; line-height: 1.7; margin: 8px 0 0; }
-.latex-help { margin-top: 13px; border: 1px solid #e7eaf2; border-radius: 12px; background: #fafbfe; color: #606b80; }
-.latex-help summary { padding: 12px 14px; color: var(--accent-dark); font-size: 12px; font-weight: 700; cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; }
-.latex-help summary::-webkit-details-marker { display: none; }
-.latex-help summary:after { content: "+"; font-size: 17px; font-weight: 400; color: #8b96b3; }
-.latex-help[open] summary:after { content: "−"; }
-.latex-help-body { padding: 0 14px 15px; border-top: 1px solid #eef0f5; }
-.latex-help-body > p { font-size: 11px; line-height: 1.7; margin: 12px 0; color: #818b9e; }
-.latex-example { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid #f0f1f5; font-size: 11px; }
-.latex-example code, .latex-tips code { color: #4553a8; background: #f0f2ff; border-radius: 5px; padding: 3px 6px; font-size: 11px; overflow-wrap: anywhere; }
-.latex-tips { display: flex; flex-wrap: wrap; gap: 7px; padding: 10px 0 4px; }
-.latex-tips span { color: #828b9d; font-size: 10px; }
-.latex-insert { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 12px; }
+.latex-insert { margin-top: 12px; }
+.latex-insert-tools { display: grid; gap: 12px; }
+.latex-common { display: grid; gap: 7px; }
+.latex-common-buttons { display: flex; flex-wrap: wrap; gap: 6px; }
+.latex-select-label { display: flex; align-items: center; gap: 10px; color: #8b94a6; font-size: 11px; font-weight: 700; }
+.latex-select-label select { min-width: min(100%, 250px); max-width: 100%; border: 1px solid #e8eaf0; border-radius: 10px; padding: 9px 34px 9px 11px; color: #596377; background: #fff; font: inherit; font-weight: 600; }
+.latex-select-label select:focus { outline: none; border-color: #abb5ff; box-shadow: 0 0 0 4px rgba(78,102,237,.08); }
 .preview-box { min-height: 68px; margin-top: 10px; padding: 15px 17px; border: 1px dashed #dce1eb; border-radius: 12px; color: #778095; background: #fafbfe; overflow-x: auto; }
 .preview-label { font-size: 10px; color: #a0a8b7; letter-spacing: .08em; font-weight: 700; margin-bottom: 8px; }
 .tag-input-row { display: flex; gap: 9px; }
-.tag-input-row input { flex: 1; }
+.tag-input-row textarea { flex: 1; width: 100%; min-height: 44px; max-height: 100px; resize: vertical; border: 1px solid var(--line); border-radius: 11px; color: var(--ink); background: #fbfcfd; padding: 12px 14px; font: inherit; line-height: 1.5; }
+.tag-input-row textarea:focus { border-color: #abb5ff; background: #fff; outline: none; box-shadow: 0 0 0 4px rgba(78,102,237,.08); }
+.tag-input-row .btn { align-self: flex-start; }
 .selected-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; min-height: 25px; }
 .removable-tag { display: inline-flex; align-items: center; gap: 7px; color: var(--accent-dark); background: var(--accent-soft); padding: 6px 9px; border-radius: 99px; font-size: 11px; font-weight: 600; }
 .removable-tag button { width: 16px; height: 16px; border: 0; border-radius: 50%; background: rgba(78,102,237,.12); color: inherit; cursor: pointer; line-height: 1; padding: 0; }
